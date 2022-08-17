@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="VisualComponents\TileZoomVisual.razor.old" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Radzen.Blazor" Version="3.18.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Business\Animals\" />
+  </ItemGroup>
+
+</Project>

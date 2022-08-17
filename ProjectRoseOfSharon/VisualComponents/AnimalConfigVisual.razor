@@ -1,0 +1,21 @@
+﻿@using ProjectRoseOfSharon.Business;
+
+<div id="Config">
+    <h4>
+        @Title
+    </h4>
+    <table>
+        <tr><td>View range</td><td><RadzenSlider Min="@Config.ViewRangeConfig.LowerBound" Max="@Config.ViewRangeConfig.Upperbound" @bind-Value="@Config.ViewRange" /> @Config.ViewRange</td></tr>
+        <tr><td>Max food level</td><td><RadzenSlider Min="@Config.MaxFoodLevelConfig.LowerBound" Max="@Config.MaxFoodLevelConfig.Upperbound" @bind-Value="@Config.MaxFoodLevel" /> @Config.MaxFoodLevel</td></tr>
+        <tr><td>Min healthy food level</td><td><RadzenSlider Min="@Config.MinHealthyFoodLevelConfig.LowerBound" Max="@MaxMinHealthyFoodLevel" @bind-Value="@Config.MinHealthyFoodLevel" /> @Config.MinHealthyFoodLevel</td></tr>
+        <tr><td>Portions per meal</td><td><RadzenSlider Min="@Config.PortionsPerMealConfig.LowerBound" Max="@Config.PortionsPerMealConfig.Upperbound" @bind-Value="@Config.PortionsPerMeal" /> @Config.PortionsPerMeal</td></tr>
+        <tr><td>Min poop level to defecate</td><td><RadzenSlider Min="@Config.MinPoopLevelToDefecateConfig.LowerBound" Max="@Config.MinPoopLevelToDefecateConfig.Upperbound" @bind-Value="@Config.MinPoopLevelToDefecate" /> @Config.MinPoopLevelToDefecate</td></tr>
+        <tr><td>Poop compression factor</td><td><RadzenSlider Min="@Config.PoopCompressionFactorConfig.LowerBound" Max="@Config.PoopCompressionFactorConfig.Upperbound" @bind-Value="@Config.PoopCompressionFactor" /> @Config.PoopCompressionFactor</td></tr>
+    </table>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public IAnimalConfig Config { get; set; }
+    private int MaxMinHealthyFoodLevel => Math.Min(Config.MaxFoodLevel, Config.MinHealthyFoodLevelConfig.Upperbound);
+}

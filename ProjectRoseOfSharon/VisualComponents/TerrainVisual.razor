@@ -1,0 +1,56 @@
+﻿@using ProjectRoseOfSharon.Business
+<style>
+	.spot {
+		width: @SpotWidth;
+		height: @SpotHeight;
+		position: relative;
+	}
+
+	
+</style>
+
+<div class="terrain-container">
+	<div class="terrain">
+		@for (int y = 0; y < Terrain.Height; y++ ){
+			<div class="terrain-row">
+			@for (int x = 0; x < Terrain.Width; x++)
+			{
+				ISpot spot = Terrain.Spots[x,y];
+				@switch(spot.GetType().Name) // let op: dit is een vieze hack om nu zonder types dit toch werkend te krijgen. 
+					{
+						@case "DesertSpot": 
+						<DesertSpotVisual Spot="@spot"></DesertSpotVisual>
+						break;
+						@case "ForestSpot": 
+						<ForestSpotVisual Spot="@spot"></ForestSpotVisual>
+						break;
+						@case "GrassSpot": 
+						<GrassSpotVisual Spot="@spot"></GrassSpotVisual>
+						break;
+					}
+		
+			}
+
+	
+			</div>
+		}
+	</div>
+
+</div>
+
+@code {
+	[Parameter]
+	public Terrain Terrain { get; set; }
+
+	private int ZoomLevel => 800 / Terrain.Height;  // assume we have at least 800px screen height to our disposal
+	private string Width => $"{Terrain.Width * ZoomLevel}px";
+	private string Height => $"{Terrain.Height * ZoomLevel}px";
+
+	private string SpotWidth => $"{ZoomLevel}px";
+	private string SpotHeight => $"{ZoomLevel}px";
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+	}
+}

@@ -1,0 +1,11 @@
+﻿@using ProjectRoseOfSharon.Business
+
+<div class="spot desert-spot">
+	<SpotVisual Spot="@Spot"></SpotVisual>
+</div>
+
+@code {
+    [Parameter]
+    public ISpot Spot { get; set; }
+
+}

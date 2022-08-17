@@ -1,0 +1,15 @@
+﻿@using ProjectRoseOfSharon.Business;
+@inject DesertConfig Config
+
+<div id="Config">
+    <h4>
+        Grass
+    </h4>
+    <table>
+        <tr><td>MaxAmountOfFertilizer</td><td><RadzenSlider Min="@Config.MaxAmountOfFertilizerConfig.LowerBound" Max="@Config.MaxAmountOfFertilizerConfig.Upperbound" @bind-Value="@Config.MaxAmountOfFertilizer" /> @Config.MaxAmountOfFertilizer</td></tr>
+        <tr><td>MinAmountOfFertilizerForEvolution</td><td><RadzenSlider Min="@Config.MinAmountOfFertilizerForEvolutionConfig.LowerBound" Max="@Config.MinAmountOfFertilizerForEvolutionConfig.Upperbound" @bind-Value="@Config.MinAmountOfFertilizerForEvolution" /> @Config.MinAmountOfFertilizerForEvolution</td></tr>
+    </table>
+</div>
+
+@code {
+}

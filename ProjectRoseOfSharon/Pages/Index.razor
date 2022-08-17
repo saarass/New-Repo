@@ -1,0 +1,163 @@
+﻿@page "/"
+@using ProjectRoseOfSharon.Business
+@using ProjectRoseOfSharon.VisualComponents
+@using Radzen.Blazor
+@using System.Diagnostics;
+@inject Terrain Terrain
+@inject TerrainConfig TerrainConfig
+@inject CowConfig CowConfig
+@inject GoatConfig GoatConfig
+
+<PageTitle>Project "Rose Of Sharon"</PageTitle>
+
+<div id="application">
+    <div id="controls" style="margin-right: 1em;">
+        <div id="buttons">
+            <RadzenButton Click=@(args => Start()) Text="Start" Disabled="@isPlaying"/>
+            <RadzenButton Click=@(args => Step()) Text="Step" Disabled="@isPlaying" />
+            <RadzenButton Click=@(args => Stop()) Text="Stop" Disabled="@isStopped"/>
+            <RadzenButton Click=@(args => Reset()) Text="Reset" />
+        </div>
+        <div id="speed-dial">
+            <RadzenArcGauge Style="width: 100%; height: 150px;">
+                <RadzenArcGaugeScale Step="10" Min="0" Max="100" Radius="1.5" TickPosition=@GaugeTickPosition.Outside Y="0.9" Margin="0">
+                    <RadzenArcGaugeScaleValue Value=@speed ShowValue="true">
+                        <Template Context="pointer">
+                            <h4>
+                                @pointer.Value Hz
+                            </h4>
+                        </Template>
+                    </RadzenArcGaugeScaleValue>
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+            <div id="speed-slider">
+                <RadzenSlider Min="1" Max="100" @bind-Value="@speed" /> &nbsp;&nbsp;&nbsp;&nbsp;(@Fps fps)
+            </div>
+        </div>
+        <div id="configs">
+            <RadzenAccordion Multiple="true">
+            <Items>
+                <RadzenAccordionItem Text="Terrain Config"> 
+                    Size: <RadzenNumeric  @bind-Value="@newWidth"></RadzenNumeric> x 
+                    <RadzenNumeric @bind-Value="@newHeight"></RadzenNumeric> (needs reset)
+                </RadzenAccordionItem>
+                <RadzenAccordionItem Text="Cow Config">
+                    <AnimalConfigVisual Title="Cow" Config="CowConfig" />
+                </RadzenAccordionItem>
+                <RadzenAccordionItem Text="Goat Config">
+                    <AnimalConfigVisual Title="Goat" Config="GoatConfig" />
+                </RadzenAccordionItem>
+                <RadzenAccordionItem Text="Desert Config">
+                    <DesertConfigVisual />
+                </RadzenAccordionItem>
+                <RadzenAccordionItem Text="Grass Config">
+                    <GrassConfigVisual />
+                </RadzenAccordionItem>
+                <RadzenAccordionItem Text="Forest Config">
+                    <ForestConfigVisual />
+                </RadzenAccordionItem>
+            </Items>
+            </RadzenAccordion>
+        </div>
+    </div>
+
+    <TerrainVisual Terrain="@Terrain"></TerrainVisual>
+</div>
+
+@code {
+    private bool isPlaying;
+    private bool isStopped => !isPlaying;
+    private int speed = 1;
+    private int Delay => 1000 / speed;
+    private Stopwatch fpsStopwatch = new Stopwatch();
+    private Stopwatch delayStopwatch = new Stopwatch();
+    private int Fps = 0;
+    private int Frames = 0;
+
+    private int newWidth;
+    private int newHeight;
+
+
+    public Index()
+    {
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Terrain.SpawnBiologicals();
+        newWidth = TerrainConfig.Width;
+        newHeight = TerrainConfig.Height;
+        //Start();
+    }
+
+    private async Task Start()
+    {
+        if (isPlaying) return;
+        isPlaying = true;
+        fpsStopwatch.Start();
+        delayStopwatch.Start();
+        await PlayLoop();
+    }
+
+    private async Task Step()
+    {
+        if (isPlaying) return;
+        await OneStep();
+    }
+
+    private void Stop()
+    {
+        isPlaying = false;
+    }
+
+    private async Task Reset()
+    {
+        var wasPlaying = isPlaying;
+        if (wasPlaying)
+        {
+            Stop();
+            // wachten tot hij klaar is.
+            await Task.Delay(Delay);
+        }
+        TerrainConfig.Width = newWidth;
+        TerrainConfig.Height = newHeight;
+        Terrain.Reset();
+        //Field.Spawn(CarrotConfig, CornConfig, RabbitConfig, WolfConfig, BearConfig);
+        //chartData.Reset();
+
+        if (wasPlaying)
+        {
+            await Start();
+        }
+    }
+
+    private async Task PlayLoop()
+    {
+        while (isPlaying)
+        {
+            delayStopwatch.Restart();
+            await OneStep();
+            await Task.Delay(Math.Max(1, Delay - (int)delayStopwatch.ElapsedMilliseconds));
+        }
+    }
+
+    private async Task OneStep()
+    {
+        await InvokeAsync(() =>
+        {
+            Frames++;
+            if(fpsStopwatch.ElapsedMilliseconds > 1000) // update fps every second
+            {
+                Fps = (int)(Math.Round(1000d * (long)Frames / fpsStopwatch.ElapsedMilliseconds));
+                Frames = 0;
+                fpsStopwatch.Restart();
+            }
+            Terrain.Update();
+            //chartData.Update();
+            StateHasChanged();
+        });
+    }
+}
+

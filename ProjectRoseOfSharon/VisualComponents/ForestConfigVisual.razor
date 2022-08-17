@@ -1,0 +1,18 @@
+﻿@using ProjectRoseOfSharon.Business;
+@inject ForestConfig Config
+
+<div id="Config">
+    <h4>
+        Grass
+    </h4>
+    <table>
+        <tr><td>MaxAmountOfFertilizer</td><td><RadzenSlider Min="@Config.MaxAmountOfFertilizerConfig.LowerBound" Max="@Config.MaxAmountOfFertilizerConfig.Upperbound" @bind-Value="@Config.MaxAmountOfFertilizer" /> @Config.MaxAmountOfFertilizer</td></tr>
+        <tr><td>MinAmountOfFertilizerForEvolution</td><td><RadzenSlider Min="@Config.MinAmountOfFertilizerForEvolutionConfig.LowerBound" Max="@Config.MinAmountOfFertilizerForEvolutionConfig.Upperbound" @bind-Value="@Config.MinAmountOfFertilizerForEvolution" /> @Config.MinAmountOfFertilizerForEvolution</td></tr>
+        <tr><td>MaxAmountOfBranches</td><td><RadzenSlider Min="@Config.MaxAmountOfBranchesConfig.LowerBound" Max="@Config.MaxAmountOfBranchesConfig.Upperbound" @bind-Value="@Config.MaxAmountOfBranches" /> @Config.MaxAmountOfBranches</td></tr>
+        <tr><td>FertilizerToGrassRatio</td><td><RadzenSlider Min="@Config.FertilizerToBranchRatioConfig.LowerBound" Max="@Config.FertilizerToBranchRatioConfig.Upperbound" @bind-Value="@Config.FertilizerToBranchRatio" /> @Config.FertilizerToBranchRatio</td></tr>
+        <tr><td>NrOfIteraionsForFreeGrass</td><td><RadzenSlider Min="@Config.NrOfIterationsForFreeBranchConfig.LowerBound" Max="@Config.NrOfIterationsForFreeBranchConfig.Upperbound" @bind-Value="@Config.NrOfIterationsForFreeBranch" /> @Config.NrOfIterationsForFreeBranch</td></tr>
+    </table>
+</div>
+
+@code {
+}

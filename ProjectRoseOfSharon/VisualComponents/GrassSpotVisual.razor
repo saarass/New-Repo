@@ -1,0 +1,15 @@
+﻿@using ProjectRoseOfSharon.Business
+
+<div class="spot grass-spot" style="background-color: rgba(@R, @G, @B, .7);">
+	<SpotVisual Spot="@Spot"></SpotVisual>
+</div>
+
+@code {
+	[Parameter]
+	public ISpot? Spot{ get; set; }
+
+	// more grass => darker green
+	private int R => 144 - (int)((Spot!.GetFertilityRatio()) * 50);
+	private int G => 238 - (int)((Spot!.GetFertilityRatio()) * 50);
+	private int B => 144 - (int)((Spot!.GetFertilityRatio()) * 50);
+}

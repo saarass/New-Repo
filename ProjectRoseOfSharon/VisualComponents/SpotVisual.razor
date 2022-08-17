@@ -1,0 +1,32 @@
+﻿@using ProjectRoseOfSharon.Business
+
+@if(Spot.AmountOfFertilizer > 0)
+{
+	<div class="poop" style="height: @PoopSizePercent; width: @PoopSizePercent; left: @PoopOffset; top: @PoopOffset;"></div>
+}
+
+@if (Spot.Biological != null) {
+	<div class="biological @GetBiologicalCssClass(Spot.Biological)"></div>
+}
+
+@code {
+	[Parameter]
+	public ISpot Spot { get; set; }
+
+	public int PoopSize => 100 * Spot.AmountOfFertilizer / Spot.Config.MaxAmountOfFertilizer;
+	public string PoopSizePercent => $"{PoopSize}%";
+	public string PoopOffset => $"{(100-PoopSize) / 2}%";
+
+	public string GetBiologicalCssClass(IBiological biological)
+	{
+		string cssClass = biological?.GetType().Name.ToLowerInvariant();
+
+		int ix = cssClass.IndexOf("`");
+		if(ix >= 0)
+		{
+			// A class like 'Shepherd`1' is named like that because it is a generic type. So remove the postfix to have a nice css class.
+			cssClass = cssClass.Substring(0, ix);
+		}
+		return cssClass;
+	}
+}

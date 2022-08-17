@@ -1,0 +1,98 @@
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+    padding: 1.1rem;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+#application {
+    display: flex;
+    flex-direction: row;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+}
+
+.terrain-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.terrain {
+    position: relative; /* now we can absolutely position animals on the terrain */
+}
+
+.terrain-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.desert-spot {
+    background-color: rgba(255, 255, 0, .7);
+}
+
+.grass-spot {
+    background-color: rgba(144, 238, 144, .7);
+}
+
+.forest-spot {
+    background-color: rgba(0, 100, 0, .7);
+}
+
+.herd {
+    background-color: #7a72d6;
+    position: absolute;
+    border-radius: 100%;
+}
+
+.biological {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border-radius: 100%;
+    border: solid 1px black;
+}
+
+.cow {
+    background: white;
+}
+
+.goat {
+    background-color: darkgray;
+}
+
+.shepherd {
+    background: red;
+}
+
+.poop {
+    position: relative;
+    background: brown;
+    border-radius: 100%;
+}
